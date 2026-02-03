@@ -1,0 +1,6 @@
+societyvenv/
+.env
+secrets/
+__pycache__/
+*.pyc
+db.sqlite3
