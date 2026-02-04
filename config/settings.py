@@ -1,5 +1,6 @@
 
 import os
+import platform
 from pathlib import Path
 from dotenv import load_dotenv
 
@@ -7,19 +8,19 @@ from dotenv import load_dotenv
 os.environ["PATH"] = r"C:\Users\ratan\AppData\Local\Programs\OSGeo4W\bin;" + os.environ.get("PATH", "")
 
 # GeoDjango (Windows)
-if os.name == "nt":
+# GeoDjango (Windows / OSGeo4W) — ONLY for local Windows dev
+if platform.system() == "Windows":
     OSGEO4W_ROOT = r"C:\Users\ratan\AppData\Local\Programs\OSGeo4W"
 
-    # Ensure Windows can find dependent DLLs
-    os.environ["PATH"] = rf"{OSGEO4W_ROOT}\bin;" + os.environ.get("PATH", "")
-  
+    try:
+        os.add_dll_directory(rf"{OSGEO4W_ROOT}\bin")
+    except Exception:
+        pass
 
-    # Django GIS DLLs
- 
+    os.environ["PATH"] = rf"{OSGEO4W_ROOT}\bin;" + os.environ.get("PATH", "")
+
     GDAL_LIBRARY_PATH = rf"{OSGEO4W_ROOT}\bin\gdal312.dll"
     GEOS_LIBRARY_PATH = rf"{OSGEO4W_ROOT}\bin\geos_c.dll"
-
-     # Data directories (CRITICAL)
     os.environ["PROJ_LIB"] = rf"{OSGEO4W_ROOT}\share\proj"
     os.environ["GDAL_DATA"] = rf"{OSGEO4W_ROOT}\apps\gdal\share\gdal"
 
