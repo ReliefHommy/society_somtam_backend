@@ -28,8 +28,7 @@ if platform.system() == "Windows":
 
 
 
-GDAL_LIBRARY_PATH = r"C:\Users\ratan\AppData\Local\Programs\OSGeo4W\bin\gdal312.dll"
-GEOS_LIBRARY_PATH = r"C:\Users\ratan\AppData\Local\Programs\OSGeo4W\bin\geos_c.dll"
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
