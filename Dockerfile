@@ -4,9 +4,12 @@ ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    gdal-bin libgdal -dev \
+    gdal-bin \
+    libgdal -dev \
     libgeos -dev \
-    gcc g++ \
+    libproj-dev \
+    gcc \
+    g++ \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
