@@ -4,13 +4,15 @@ import platform
 from pathlib import Path
 from dotenv import load_dotenv
 
-# Make sure OSGeo4W DLLs are discoverable
-os.environ["PATH"] = r"C:\Users\ratan\AppData\Local\Programs\OSGeo4W\bin;" + os.environ.get("PATH", "")
 
 # GeoDjango (Windows)
 # GeoDjango (Windows / OSGeo4W) — ONLY for local Windows dev
 if platform.system() == "Windows":
     OSGEO4W_ROOT = r"C:\Users\ratan\AppData\Local\Programs\OSGeo4W"
+
+    # Make sure OSGeo4W DLLs are discoverable
+    os.environ["PATH"] = r"C:\Users\ratan\AppData\Local\Programs\OSGeo4W\bin;" + os.environ.get("PATH", "")
+
 
     try:
         os.add_dll_directory(rf"{OSGEO4W_ROOT}\bin")
