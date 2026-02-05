@@ -60,7 +60,7 @@ CSRF_TRUSTED_ORIGINS = [
 # Application definition
 
 INSTALLED_APPS = [
-    "jazzmin",
+  
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -84,6 +84,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
  
 ]
 
@@ -109,15 +110,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
-JAZZMIN_SETTINGS = {
-    "site_title": "Somtam Society Admin",
-    "site_header": "Somtam Society",
-    "site_brand": "Somtam 2026",
-    "welcome_sign": "Welcome to Somtam Society Admin",
-}
 
-JAZZMIN_SETTINGS = {...}
-JAZZMIN_UI_TWEAKS = {...}
 
 
 
