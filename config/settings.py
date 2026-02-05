@@ -84,6 +84,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
+     "whitenoise.middleware.WhiteNoiseMiddleware",
 ]
 
 
@@ -115,7 +116,8 @@ JAZZMIN_SETTINGS = {
     "welcome_sign": "Welcome to Somtam Society Admin",
 }
 
-
+JAZZMIN_SETTINGS = {...}
+JAZZMIN_UI_TWEAKS = {...}
 
 
 
