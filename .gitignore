@@ -4,3 +4,31 @@ secrets/
 __pycache__/
 *.pyc
 db.sqlite3
+# Django / Python
+*.log
+*.pot
+*.mo
+*.sqlite3
+staticfiles/
+media/
+
+# Local env / tooling
+.env.*
+!.env.example
+.vscode/
+.idea/
+.DS_Store
+
+# Python packaging
+*.egg-info/
+dist/
+build/
+
+# Virtualenvs
+venv/
+.venv/
+env/
+
+# dotenv cache
+.python-version
+
