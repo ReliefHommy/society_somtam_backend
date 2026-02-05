@@ -60,6 +60,7 @@ CSRF_TRUSTED_ORIGINS = [
 # Application definition
 
 INSTALLED_APPS = [
+    "jazzmin",
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -106,6 +107,14 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'config.wsgi.application'
+
+JAZZMIN_SETTINGS = {
+    "site_title": "Somtam Society Admin",
+    "site_header": "Somtam Society",
+    "site_brand": "Somtam 2026",
+    "welcome_sign": "Welcome to Somtam Society Admin",
+}
+
 
 
 
@@ -161,6 +170,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = BASE_DIR / "staticfiles"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
