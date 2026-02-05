@@ -10,6 +10,10 @@ from .schemas import LocationOut, EventOut, MemberProfileOut
 
 router = Router(tags=["society"])
 
+@router.get("/health")
+def health(request):
+    return {"ok": True, "service": "society"}
+
 
 def _loc_lat(loc: Location) -> Optional[float]:
     if not loc.coordinates:
