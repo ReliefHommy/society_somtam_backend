@@ -29,32 +29,24 @@ class Location(models.Model):
         return f"{self.name} ({self.country_code})"
 
 class Event(models.Model):
-
     class EventType(models.TextChoices):
         RELIGIOUS = 'RELIGIOUS', _('Religious Ceremony')
         CONCERT = 'CONCERT', _('Concert/Entertainment')
         MARKET = 'MARKET', _('Market/Food Festival')
         COMMUNITY = 'COMMUNITY', _('Community Gathering')
 
+    event_external_id = models.CharField(max_length=120, unique=True, db_index=True)
+
     title = models.CharField(max_length=255)
-    location = models.ForeignKey(
-        Location, 
-        on_delete=models.CASCADE, 
-        related_name='events'
-    )
+    location = models.ForeignKey(Location, on_delete=models.CASCADE, related_name='events')
     start_date = models.DateTimeField(db_index=True)
     end_date = models.DateTimeField(null=True, blank=True)
 
-    event_type = models.CharField(
-        max_length=20, 
-        choices=EventType.choices
-    )
+    event_type = models.CharField(max_length=20, choices=EventType.choices)
     description = models.TextField()
     banner_image = models.URLField(blank=True)
 
     design_template_external_id = models.CharField(max_length=100, blank=True)
-
- 
 
     def __str__(self):
         return self.title
