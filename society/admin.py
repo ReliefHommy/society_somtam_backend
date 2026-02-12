@@ -17,7 +17,7 @@ class LocationAdmin(gis_admin.GISModelAdmin):  # <-- change ModelAdmin -> GISMod
 
 @admin.register(Event)
 class EventAdmin(admin.ModelAdmin):
-    list_display = ("title", "event_type", "start_date", "location","design_template_external_id")
+    list_display = ("title", "event_type", "start_date", "location","design_template_external_id","event_external_id")
     list_filter = ("event_type", "start_date")
     search_fields = ("title", "description", "location__name")
 

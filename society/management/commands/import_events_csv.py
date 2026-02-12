@@ -19,6 +19,8 @@ EVENT_TYPE_MAP = {
     "concert/entertainment": Event.EventType.CONCERT,
     "market/food festival": Event.EventType.MARKET,
     "community gathering": Event.EventType.COMMUNITY,
+    "community event": Event.EventType.COMMUNITY,
+
 
     # small extras (optional, just in case)
     "religious": Event.EventType.RELIGIOUS,
