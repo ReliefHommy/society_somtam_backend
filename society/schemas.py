@@ -20,7 +20,9 @@ class LocationOut(Schema):
 class EventOut(Schema):
     id: int
     title: str
+    sub_title_thai: str | None = None
     description: str
+    description_thai: str | None = None
     banner_image: str
     event_type: str
 

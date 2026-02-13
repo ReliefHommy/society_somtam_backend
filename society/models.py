@@ -38,12 +38,14 @@ class Event(models.Model):
     event_external_id = models.CharField(max_length=120, unique=True, db_index=True)
 
     title = models.CharField(max_length=255)
+    sub_title_thai = models.CharField(max_length=255, blank=True, default="")
     location = models.ForeignKey(Location, on_delete=models.CASCADE, related_name='events')
     start_date = models.DateTimeField(db_index=True)
     end_date = models.DateTimeField(null=True, blank=True)
 
     event_type = models.CharField(max_length=20, choices=EventType.choices)
     description = models.TextField()
+    description_thai = models.TextField(blank=True, default="")
     banner_image = models.URLField(blank=True)
 
     design_template_external_id = models.CharField(max_length=100, blank=True)
