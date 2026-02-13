@@ -63,8 +63,7 @@ def event_to_out(e: Event, distance_km: Optional[float] = None) -> EventOut:
     )
 
 
-
-@router.get("/locations", response=List[LocationOut])
+@router.get("/locations", response=PaginatedLocationsOut)
 @paginate(PageNumberPagination, page_size=50)
 def list_locations(
     request,
@@ -86,7 +85,7 @@ def list_locations(
     return qs
 
 
-@router.get("/events", response=List[EventOut])
+@router.get("/events", response=PaginatedEventsOut)
 @paginate(PageNumberPagination, page_size=24)
 def list_events(
     request,
