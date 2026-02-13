@@ -2,7 +2,7 @@ from datetime import datetime
 from typing import Optional
 from ninja import Schema
 from typing import List
-from .schemas import EventOut, LocationOut
+
 
 
 class LocationOut(Schema):
@@ -17,11 +17,7 @@ class LocationOut(Schema):
     lat: Optional[float] = None
     lng: Optional[float] = None
 
-class PaginatedLocationsOut(Schema):
-    items: List[LocationOut]
-    count: int
-    page: int
-    pages: int
+
 
 
 class EventOut(Schema):
@@ -44,6 +40,12 @@ class EventOut(Schema):
 
     # only set by /events/nearby
     distance_km: Optional[float] = None
+
+class PaginatedLocationsOut(Schema):
+    items: List[LocationOut]
+    count: int
+    page: int
+    pages: int
 
 class PaginatedEventsOut(Schema):
     items: List[EventOut]
