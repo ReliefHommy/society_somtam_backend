@@ -1,7 +1,6 @@
 from typing import List, Optional
 from django.shortcuts import get_object_or_404
-from ninja import Router, Query
-from ninja.pagination import paginate, PageNumberPagination
+from ninja import Router
 from django.contrib.gis.geos import Point
 from django.contrib.gis.db.models.functions import Distance
 from django.contrib.gis.measure import D
@@ -63,7 +62,6 @@ def event_to_out(e: Event, distance_km: Optional[float] = None) -> EventOut:
 
 
 @router.get("/locations", response=List[LocationOut])
-@paginate(PageNumberPagination, page_size=50)
 def list_locations(
     request,
     country_code: Optional[str] = None,
@@ -85,7 +83,6 @@ def list_locations(
 
 
 @router.get("/events", response=List[EventOut])
-@paginate(PageNumberPagination, page_size=24)
 def list_events(
     request,
     country_code: Optional[str] = None,
