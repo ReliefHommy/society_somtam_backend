@@ -46,7 +46,9 @@ def event_to_out(e: Event, distance_km: Optional[float] = None) -> EventOut:
     return EventOut(
         id=e.id,
         title=e.title,
+        sub_title_thai=e.sub_title_thai or "",
         description=e.description or "",
+        description_thai=e.description_thai or "",
         banner_image=e.banner_image or "",
         event_type=e.event_type,
         start_date=e.start_date,
