@@ -62,25 +62,17 @@ def event_to_out(e: Event, distance_km: Optional[float] = None) -> EventOut:
 
 
 @router.get("/locations", response=List[LocationOut])
-def list_locations(
-    request,
-    country_code: Optional[str] = None,
-    category: Optional[str] = None,
-    q: Optional[str] = None,
-):
+def list_locations(request, country_code: Optional[str] = None, category: Optional[str] = None, q: Optional[str] = None):
     qs = Location.objects.all().order_by("country_code", "name")
 
     if country_code:
         qs = qs.filter(country_code__iexact=country_code)
-
     if category:
         qs = qs.filter(category=category)
-
     if q:
         qs = qs.filter(name__icontains=q)
 
-    return qs
-
+    return [location_to_out(loc) for loc in qs]
 
 @router.get("/events", response=List[EventOut])
 def list_events(
@@ -94,20 +86,19 @@ def list_events(
 
     if country_code:
         qs = qs.filter(location__country_code__iexact=country_code)
-
     if event_type:
         qs = qs.filter(event_type=event_type)
-
     if location_id:
         qs = qs.filter(location_id=location_id)
 
-    if upcoming_only:
-        # Upcoming events ordered by soonest
-        qs = qs.order_by("start_date")
-    else:
-        qs = qs.order_by("-start_date")
+    qs = qs.order_by("start_date" if upcoming_only else "-start_date")
 
-    return qs
+    return [event_to_out(e) for e in qs]
+
+
+
+
+
 
 
 @router.get("/events/nearby", response=List[EventOut])
