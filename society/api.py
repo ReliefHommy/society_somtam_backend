@@ -1,6 +1,7 @@
 from typing import List, Optional
 from django.shortcuts import get_object_or_404
-from ninja import Router
+from ninja import Router, Query
+from ninja.pagination import paginate, PageNumberPagination
 from django.contrib.gis.geos import Point
 from django.contrib.gis.db.models.functions import Distance
 from django.contrib.gis.measure import D
@@ -62,13 +63,14 @@ def event_to_out(e: Event, distance_km: Optional[float] = None) -> EventOut:
 
 
 @router.get("/locations", response=List[LocationOut])
+@paginate(PageNumberPagination, page_size=50)
 def list_locations(
     request,
     country_code: Optional[str] = None,
     category: Optional[str] = None,
     q: Optional[str] = None,
 ):
-    qs = Location.objects.all().order_by("-id")
+    qs = Location.objects.all().order_by("country_code", "name")
 
     if country_code:
         qs = qs.filter(country_code__iexact=country_code)
@@ -79,10 +81,11 @@ def list_locations(
     if q:
         qs = qs.filter(name__icontains=q)
 
-    return [location_to_out(loc) for loc in qs]
+    return qs
 
 
 @router.get("/events", response=List[EventOut])
+@paginate(PageNumberPagination, page_size=24)
 def list_events(
     request,
     country_code: Optional[str] = None,
@@ -90,7 +93,7 @@ def list_events(
     location_id: Optional[int] = None,
     upcoming_only: bool = True,
 ):
-    qs = Event.objects.select_related("location").all()
+    qs = Event.objects.select_related("location").order_by("-start_date")
 
     if country_code:
         qs = qs.filter(location__country_code__iexact=country_code)
@@ -107,7 +110,7 @@ def list_events(
     else:
         qs = qs.order_by("-start_date")
 
-    return [event_to_out(e) for e in qs]
+    return qs
 
 
 @router.get("/events/nearby", response=List[EventOut])
