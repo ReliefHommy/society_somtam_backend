@@ -8,8 +8,8 @@ class LocationOut(Schema):
     id: int
     name: str
     category: str
-    address: str
-    website: Optional[str] = None
+    address: str | None = None
+    website: str | None = None
     country_code: str
     related_store_external_id: str
 
@@ -32,6 +32,8 @@ class EventOut(Schema):
     location_id: int
     location_name: str
     location_category: str
+    location_address: str
+    location_website: str
     country_code: str
 
     lat: Optional[float] = None
