@@ -32,8 +32,8 @@ class EventOut(Schema):
     location_id: int
     location_name: str
     location_category: str
-    location_address: str
-    location_website: str
+    location_address: Optional[str] = None
+    location_website: Optional[str] = None
     country_code: str
 
     lat: Optional[float] = None
