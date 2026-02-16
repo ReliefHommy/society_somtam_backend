@@ -1,6 +1,7 @@
 from datetime import datetime
 from typing import Optional
 from ninja import Schema
+from typing import Optional
 from typing import List
 
 
@@ -42,6 +43,13 @@ class EventOut(Schema):
     # only set by /events/nearby
     distance_km: Optional[float] = None
 
+    @staticmethod
+    def resolve_location_address(obj):
+        return obj.location.address if obj.location else None
+    @staticmethod
+    def resolve_location_website(obj):
+        return obj.location.website if obj.location else None
+
 
 class MemberProfileOut(Schema):
     id: int
@@ -49,3 +57,5 @@ class MemberProfileOut(Schema):
     home_city: str
     interests: List[str]
     saved_event_ids: List[int]
+
+
