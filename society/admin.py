@@ -5,7 +5,7 @@ from .models import Location, Event, MemberProfile
 
 @admin.register(Location)
 class LocationAdmin(gis_admin.GISModelAdmin):  # <-- change ModelAdmin -> GISModelAdmin
-    list_display = ("name", "category", "country_code","related_store_external_id")
+    list_display = ("name", "category", "country_code","coordinates","related_store_external_id")
     list_filter = ("category", "country_code")
     search_fields = ("name", "address")
 
