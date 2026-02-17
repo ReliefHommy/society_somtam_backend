@@ -56,6 +56,8 @@ def event_to_out(e: Event, distance_km: Optional[float] = None) -> EventOut:
         location_id=loc.id,
         location_name=loc.name,
         location_category=loc.category,
+        location_address=loc.category,
+        location_website=loc.category,
         country_code=loc.country_code,
         lat=_loc_lat(loc),
         lng=_loc_lng(loc),
@@ -82,6 +84,8 @@ def list_events(
     country_code: Optional[str] = None,
     event_type: Optional[str] = None,
     location_id: Optional[int] = None,
+    location_address: Optional[int] = None,
+    location_website: Optional[int] = None,
     upcoming_only: bool = True,
 ):
     qs = Event.objects.select_related("location").order_by("-start_date")
@@ -92,6 +96,10 @@ def list_events(
         qs = qs.filter(event_type=event_type)
     if location_id:
         qs = qs.filter(location_id=location_id)
+    if location_address:
+        qs = qs.filter(location__address__icontains=location_address)
+    if location_website:
+        qs = qs.filter(location__website__icontains=location_website)
 
     qs = qs.order_by("start_date" if upcoming_only else "-start_date")
 
