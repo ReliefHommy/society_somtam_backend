@@ -1,3 +1,4 @@
+#config/api.py
 from ninja import NinjaAPI
 from society.api import router as society_router
 

@@ -1,4 +1,3 @@
-# society/schemas.py
 from datetime import datetime
 from typing import Optional
 from ninja import Schema
@@ -51,14 +50,12 @@ class EventOut(Schema):
     # only set by /events/nearby
     distance_km: Optional[float] = None
 
-class PaginatedEventsOut(Schema):
-    items: List[EventOut]
-    count: int
-    limit: int
-    offset: int
-    next_offset: Optional[int] = None
-
-
+    @staticmethod
+    def resolve_location_address(obj):
+        return obj.location.address if obj.location else None
+    @staticmethod
+    def resolve_location_website(obj):
+        return obj.location.website if obj.location else None
 
 
 class MemberProfileOut(Schema):

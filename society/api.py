@@ -1,12 +1,14 @@
+# society/api.py
 from typing import List, Optional
+from django.utils import timezone
 from django.shortcuts import get_object_or_404
 from ninja import Router
 from django.contrib.gis.geos import Point
 from django.contrib.gis.db.models.functions import Distance
 from django.contrib.gis.measure import D
-
 from .models import Location, Event, MemberProfile
 from .schemas import LocationOut, EventOut, MemberProfileOut
+from .schemas import PaginatedEventsOut
 
 router = Router(tags=["society"])
 
@@ -90,28 +92,70 @@ def list_events(
     country_code: Optional[str] = None,
     event_type: Optional[str] = None,
     location_id: Optional[int] = None,
-    location_address: Optional[int] = None,
-    location_website: Optional[int] = None,
     upcoming_only: bool = True,
+    
 ):
     qs = Event.objects.select_related("location").order_by("-start_date")
+    if country_code:
+        qs = qs.filter(location__country_code__iexact=country_code) 
+    if event_type: 
+        qs = qs.filter(event_type=event_type) 
+    if location_id: 
+        qs = qs.filter(location_id=location_id) 
+        
+    qs = qs.order_by("start_date" if upcoming_only else "-start_date") 
+    return [event_to_out(e) for e in qs]
 
+
+# This is a paginated version of /events. You can use it if you expect a lot of results and want to load them in chunks.
+
+@router.get("/events/paged", response=PaginatedEventsOut)
+def list_events_paged(
+    request,
+    country_code: Optional[str] = None,
+    event_type: Optional[str] = None,
+    location_id: Optional[int] = None,
+    upcoming_only: bool = True,
+    limit: int = 12,
+    offset: int = 0,
+):
+    # Guardrails
+    if limit < 1:
+        limit = 12
+    limit = min(limit, 50)
+
+    if offset < 0:
+        offset = 0
+
+    qs = Event.objects.select_related("location")
+
+    # Filters (same as /events)
     if country_code:
         qs = qs.filter(location__country_code__iexact=country_code)
     if event_type:
         qs = qs.filter(event_type=event_type)
     if location_id:
         qs = qs.filter(location_id=location_id)
-    if location_address:
-        qs = qs.filter(location__address__icontains=location_address)
-    if location_website:
-        qs = qs.filter(location__website__icontains=location_website)
 
-    qs = qs.order_by("start_date" if upcoming_only else "-start_date")
+    # Ordering + upcoming filter
+    if upcoming_only:
+        qs = qs.filter(start_date__gte=timezone.now()).order_by("start_date")
+    else:
+        qs = qs.order_by("-start_date")
 
-    return [event_to_out(e) for e in qs]
+    count = qs.count()
+    page_qs = qs[offset : offset + limit]
+    items = [event_to_out(e) for e in page_qs]
 
+    next_offset = offset + limit if (offset + limit) < count else None
 
+    return {
+        "items": items,
+        "count": count,
+        "limit": limit,
+        "offset": offset,
+        "next_offset": next_offset,
+    }
 
 
 
