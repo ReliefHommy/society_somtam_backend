@@ -40,6 +40,13 @@ class EventOut(Schema):
     lat: Optional[float] = None
     lng: Optional[float] = None
 
+    # new added fields from Event model
+    hightlight: Optional[str] = None
+    hightlight_thai: Optional[str] = None
+    organizer_name: Optional[str] = None
+    contact_info: Optional[str] = None
+    event_website: Optional[str] = None
+
     # only set by /events/nearby
     distance_km: Optional[float] = None
 

@@ -35,10 +35,20 @@ class Event(models.Model):
         MARKET = 'MARKET', _('Market/Food Festival')
         COMMUNITY = 'COMMUNITY', _('Community Gathering')
 
+    class Contact_info(models.TextChoices):
+        EMAIL = 'EMAIL', _('Email')
+        PHONE = 'PHONE', _('Phone')
+        WEBSITE = 'WEBSITE', _('Website')
+
     event_external_id = models.CharField(max_length=120, unique=True, db_index=True)
 
     title = models.CharField(max_length=255)
     sub_title_thai = models.CharField(max_length=255, blank=True, default="")
+    hightlight = models.CharField(max_length=255, blank=True, default="")
+    hightlight_thai = models.CharField(max_length=255, blank=True, default="")
+    organizer_name = models.CharField(max_length=255, blank=True, default="")
+    contact_info = models.CharField(max_length=255, blank=True, choices=Contact_info.choices, default=Contact_info.EMAIL)
+    event_website = models.URLField(blank=True, default="www.somtamevent.com")
     location = models.ForeignKey(Location, on_delete=models.CASCADE, related_name='events')
     start_date = models.DateTimeField(db_index=True)
     end_date = models.DateTimeField(null=True, blank=True)

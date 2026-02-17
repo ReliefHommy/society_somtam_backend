@@ -62,6 +62,12 @@ def event_to_out(e: Event, distance_km: Optional[float] = None) -> EventOut:
         lat=_loc_lat(loc),
         lng=_loc_lng(loc),
         distance_km=distance_km,
+        hightlight=e.hightlight or "",
+        hightlight_thai=e.hightlight_thai or "",
+        organizer_name=e.organizer_name or "",
+        contact_info=e.contact_info or "",
+        event_website=e.event_website or "",
+        
     )
 
 
