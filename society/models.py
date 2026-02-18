@@ -6,9 +6,9 @@ from django.utils.translation import gettext_lazy as _
 class Location(models.Model):
 
     class Category(models.TextChoices):
-        TEMPLE = 'TEMPLE', _('Temple')
-        MARKET = 'MARKET', _('Thai Grocery/Market')
-        RESTAURANT = 'RESTAURANT', _('Restaurant')
+        TEMPLE = 'TEMPLE', _('Temple Day Tracker')
+        MARKET = 'MARKET', _('Market/Food Festival')
+        EXHIBITION = 'EXHIBITION', _('Music/Exhibition Venue')
         PARTNER = 'PARTNER', _('Partner Venue')
 
     name = models.CharField(max_length=200)
