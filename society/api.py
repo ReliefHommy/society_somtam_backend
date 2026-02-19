@@ -114,6 +114,7 @@ def list_events_paged(
     request,
     country_code: Optional[str] = None,
     event_type: Optional[str] = None,
+    ids: Optional[str] = None,
     location_id: Optional[int] = None,
     upcoming_only: bool = True,
     limit: int = 12,
@@ -134,6 +135,9 @@ def list_events_paged(
         qs = qs.filter(location__country_code__iexact=country_code)
     if event_type:
         qs = qs.filter(event_type=event_type)
+    if ids:
+        id_list = [int(i) for i in ids.split(",") if i.isdigit()]
+        qs = qs.filter(id__in=id_list)
     if location_id:
         qs = qs.filter(location_id=location_id)
 
