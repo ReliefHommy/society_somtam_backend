@@ -9,6 +9,7 @@ from django.contrib.gis.measure import D
 from .models import Location, Event, MemberProfile
 from .schemas import LocationOut, EventOut, MemberProfileOut
 from .schemas import PaginatedEventsOut
+from society.business_agents.search_agent import scout_events_agent
 
 router = Router(tags=["society"])
 
@@ -218,6 +219,17 @@ def get_member_profile(
         saved_event_ids=list(profile.saved_events.values_list("id", flat=True)),
     )
 
+@router.get("/search")
+def ai_search_endpoint(request, query: str):
+    """
+    Call this via: GET /api/society/search?query=Bangkok+Festivals
+    """
+    try:
+        # This calls your 3-in-1 Agent (Scraper/Translator/Strategist)
+        result = scout_events_agent(query)
+        return {"success": True, "data": result}
+    except Exception as e:
+        return {"success": False, "error": str(e)}
 
 
     
