@@ -3,8 +3,6 @@ from django.contrib.gis.db import models  # Essential for GeoDjango
 from django.conf import settings
 from django.utils.translation import gettext_lazy as _
 
-from society.services.ai_service import NokinhouseAgent
-
 class Location(models.Model):
 
     class Category(models.TextChoices):
@@ -82,34 +80,3 @@ class MemberProfile(models.Model):
 
     def __str__(self):
         return f"Profile for {self.user.get_username()}"
-    
-# Nokinhouse AI Task Model for specific business tasks
-from django.db import models
-
-class AiTask(models.Model):
-    STATUS_CHOICES = [
-        ('PENDING', 'Pending'),
-        ('IN_PROGRESS', 'In Progress'),
-        ('COMPLETED', 'Completed'),
-    ]
-    CATEGORY_CHOICES = [
-        ('DESIGN', 'Me-Designer'),# e.g., Project R&D, Product that sells well on Amazon, and design a product that can be sold on Amazon.
-        ('SOURCING', 'Sourcing Agent'),# e.g., finding suppliers, sourcing products, finding manufacturers for a specific product.
-        ('SALE', 'Business Agent'),# e.g., managing Amazon listings,nokstore.somtammarket.com, optimizing product descriptions, handling customer reviews.
-        ('V_log', 'V-log Creator'),# e.g., creating engaging video content for social media, showcasing products, or providing tutorials.
-    ]
-    
-    title = models.CharField(max_length=200)
-    category = models.CharField(max_length=50) # e.g., 'Sourcing', 'Code', 'Amazon'
-    description = models.TextField()
-    ai_response = models.TextField(blank=True, null=True)
-    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='PENDING')
-    created_at = models.DateTimeField(auto_now_add=True)
-
-    def execute_with_gemini(self):
-        agent = NokinhouseAgent()
-        # Pass the category as context so the AI knows its role
-        response = agent.process_task(self.description, context=f"Role: {self.category} expert")
-        self.ai_response = response
-        self.status = 'COMPLETED'
-        self.save()    
