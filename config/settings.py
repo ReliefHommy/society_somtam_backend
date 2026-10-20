@@ -122,28 +122,19 @@ WSGI_APPLICATION = 'config.wsgi.application'
 import os
 import dj_database_url
 
-DATABASE_URL = os.getenv("DATABASE_URL")
+#DATABASE_URL = os.getenv("DATABASE_URL")
 
-if DATABASE_URL:
-    DATABASES = {
-        "default": dj_database_url.parse(
-            DATABASE_URL,
-            engine="django.contrib.gis.db.backends.postgis",
-            conn_max_age=600,
-            ssl_require=True,  # Render usually needs SSL
-        )
+DATABASES = {
+    'default': {
+         "ENGINE": "django.db.backends.postgresql",
+        "NAME": os.getenv("POSTGRES_DB", "railway"),
+        "USER": os.getenv("POSTGRES_USER", "postgres"),
+        "PASSWORD": os.getenv("POSTGRES_PASSWORD", ""),
+        "HOST": os.getenv("POSTGRES_HOST", "caboose.proxy.rlwy.net"),
+        "PORT": os.getenv("POSTGRES_PORT", "24124"),
     }
-else:
-    DATABASES = {
-        "default": {
-            "ENGINE": "django.contrib.gis.db.backends.postgis",
-            "NAME": os.getenv("POSTGRES_DB"),
-            "USER": os.getenv("POSTGRES_USER"),
-            "PASSWORD": os.getenv("POSTGRES_PASSWORD"),
-            "HOST": os.getenv("POSTGRES_HOST"),
-            "PORT": os.getenv("POSTGRES_PORT", "5432"),
-        }
-    }
+}
+
 
 
 
